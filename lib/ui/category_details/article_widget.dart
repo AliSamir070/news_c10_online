@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:news_c10_online/model/news_model.dart';
+import 'package:news_c10_online/model/news_response/Article.dart';
 
 class ArticleWidget extends StatelessWidget {
-  NewsModel news;
-  ArticleWidget({Key? key,required this.news}) : super(key: key);
+  Article news;
+
+  ArticleWidget({Key? key, required this.news}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,36 +14,29 @@ class ArticleWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(24),
-          child: Image.asset(
-            news.image,
-            width: double.infinity,
-            fit: BoxFit.cover,
-            height: height*0.25,
-          ),
+            borderRadius: BorderRadius.circular(24),
+            child: CachedNetworkImage(
+              imageUrl: news.urlToImage ?? "",
+              width: double.infinity,
+              fit: BoxFit.cover,
+              height: height * 0.25,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            )),
+        Text(
+          news.source?.name ?? "",
+          style: TextStyle(color: Colors.grey, fontSize: 14),
         ),
         Text(
-          news.source,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 14
-          ),
-        ),
-        Text(
-          news.title,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 20
-          ),
+          news.title ?? "",
+          style: TextStyle(color: Colors.black, fontSize: 20),
         ),
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            news.date,
-            style: TextStyle(
-                color: Colors.grey,
-                fontSize: 14
-            ),
+            news.publishedAt ?? "",
+            style: TextStyle(color: Colors.grey, fontSize: 14),
           ),
         ),
       ],

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../model/sources_response/Source.dart';
+
 class SourceTabItem extends StatelessWidget {
   bool isSelected;
-  String source;
+  Source source;
   SourceTabItem({Key? key,required this.source , required this.isSelected}) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class SourceTabItem extends StatelessWidget {
             :Colors.transparent
       ),
       child: Text(
-        source,
+        source.name??"",
         style: TextStyle(
           fontSize: 18,
           color: isSelected
