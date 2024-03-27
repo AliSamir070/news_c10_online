@@ -1,17 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:news_c10_online/shared/api/api_manager.dart';
+import 'package:news_c10_online/ui/category_details/viewModel/CategoryDetailsViewModel.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/sources_response/Source.dart';
 import 'article_widget.dart';
 
-class NewsListWidget extends StatelessWidget {
+class NewsListWidget extends StatefulWidget {
   Source source;
   NewsListWidget({Key? key,required this.source}) : super(key: key);
 
   @override
+  State<NewsListWidget> createState() => _NewsListWidgetState();
+}
+
+class _NewsListWidgetState extends State<NewsListWidget> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+        context.read<CategoryDetailsViewModel>().getNews(widget.source.id??"");
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: FutureBuilder(
+      child: Consumer<CategoryDetailsViewModel>(
+        builder: (context , viewModel , _){
+          if(viewModel.showNewsLoading){
+            return Center(child: CircularProgressIndicator(),);
+          }else if(viewModel.newsErrorMessage != null){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(viewModel.newsErrorMessage??""),
+                ElevatedButton(onPressed: (){}, child: Text("Try again"))
+              ],
+            );
+          }
+          var articles = viewModel.articles;
+          return ListView.separated(
+              itemBuilder: (context , index)=>ArticleWidget(news: articles[index]),
+              separatorBuilder: (context , index)=>SizedBox(height: 20,),
+              itemCount: articles.length
+          );
+        },
+      )
+
+
+      /*FutureBuilder(
         future: ApiManager.getNews(source.id!),
         builder: (context , snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
@@ -32,7 +70,7 @@ class NewsListWidget extends StatelessWidget {
               itemCount: articles.length
           );
         },
-      ),
+      )*/,
     );
   }
 }
