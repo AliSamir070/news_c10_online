@@ -29,29 +29,8 @@ class _NewsListWidgetState extends State<NewsListWidget> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<CategoryDetailsViewModel , CategoryDetailsStates>(
-        builder: (BuildContext context, CategoryDetailsStates state) {
-          if(state is NewSuccessState){
-            var articles = state.artices;
-            return ListView.separated(
-                itemBuilder: (context , index)=>ArticleWidget(news: articles[index]),
-                separatorBuilder: (context , index)=>SizedBox(height: 20,),
-                itemCount: articles.length
-            );
-          }else if(state is NewsErrorState){
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(state.errorMessage),
-                ElevatedButton(onPressed: (){}, child: Text("Try again"))
-              ],
-            );
-          }
-          return Center(child: CircularProgressIndicator(),);
-        },
-
-      )/*FutureBuilder(
-        future: ApiManager.getNews(source.id!),
+      child: FutureBuilder(
+        future: ApiManager.getNews(widget.source.id!),
         builder: (context , snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator(),);
@@ -71,7 +50,7 @@ class _NewsListWidgetState extends State<NewsListWidget> {
               itemCount: articles.length
           );
         },
-      )*/,
+      ),
     );
   }
 }

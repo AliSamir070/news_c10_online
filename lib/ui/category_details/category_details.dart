@@ -20,67 +20,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context)=>CategoryDetailsViewModel()..getSources(widget.category.id),
-        child: BlocBuilder<CategoryDetailsViewModel,CategoryDetailsStates>(
-          buildWhen: (prevState , currentState)=>
-          currentState is CategoryDetailInitialState
-          || currentState is SourcesLoadingState
-          || currentState is SourcesErrorState
-          || currentState is SourcesSuccessState,
-          builder: (context , state){
-            if(state is SourcesSuccessState){
-              var sources = state.sources;
-              return DefaultTabController(
-                length: sources.length,
-                initialIndex: selectedIndex,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      TabBar(
-                          isScrollable: true,
-                          dividerColor: Colors.transparent,
-                          indicatorColor: Colors.transparent,
-                          unselectedLabelStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20
-                          ),
-                          onTap: (index){
-                            selectedIndex = index;
-                            setState(() {
-
-                            });
-                          },
-                          labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor
-                          ),
-                          tabs: sources.map((source){
-                            return SourceTabItem(
-                              source: source,
-                              isSelected: selectedIndex==sources.indexOf(source),
-                            );
-                          }).toList()
-                      ),
-                      NewsListWidget(source: sources[selectedIndex],)
-                    ],
-                  ),
-                ),
-              );
-            }else if (state is SourcesErrorState){
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(state.errorMessage),
-                  ElevatedButton(onPressed: (){}, child: Text("Try again"))
-                ],
-              );
-            }
-            return Center(child: CircularProgressIndicator(),);
-          },
-        ),
-    );
-    /*FutureBuilder(
+    return FutureBuilder(
         future: ApiManager.getSources(widget.category.id),
         builder: (context , snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
@@ -132,6 +72,6 @@ class _CategoryDetailsState extends State<CategoryDetails> {
             ),
           );
         }
-    )*/;
+    );
   }
 }
