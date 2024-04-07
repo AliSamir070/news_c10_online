@@ -4,10 +4,10 @@ class AppTheme{
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
-        seedColor: Color(0xff39A552),
-        primary: Color(0xff39A552)
+        seedColor: const Color(0xff39A552),
+        primary: const Color(0xff39A552)
     ),
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       centerTitle: true,
       backgroundColor: Color(0xff39A552),
       titleTextStyle: TextStyle(

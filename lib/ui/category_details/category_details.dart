@@ -24,13 +24,13 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         future: ApiManager.getSources(widget.category.id),
         builder: (context , snapshot){
           if(snapshot.connectionState == ConnectionState.waiting){
-            return Center(child: CircularProgressIndicator(),);
+            return const Center(child: CircularProgressIndicator(),);
           }else if(snapshot.hasError || snapshot.data?.status == "error"){
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(snapshot.data?.message??snapshot.error.toString()),
-                ElevatedButton(onPressed: (){}, child: Text("Try again"))
+                ElevatedButton(onPressed: (){}, child: const Text("Try again"))
               ],
             );
           }
@@ -46,7 +46,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                       isScrollable: true,
                       dividerColor: Colors.transparent,
                       indicatorColor: Colors.transparent,
-                      unselectedLabelStyle: TextStyle(
+                      unselectedLabelStyle: const TextStyle(
                           color: Colors.black,
                           fontSize: 20
                       ),
