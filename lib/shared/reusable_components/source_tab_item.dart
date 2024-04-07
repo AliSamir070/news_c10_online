@@ -10,7 +10,7 @@ class SourceTabItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25),
         border: Border.all(

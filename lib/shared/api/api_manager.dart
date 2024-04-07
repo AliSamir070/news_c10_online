@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -30,4 +32,28 @@ class ApiManager{
     var newsResponse = NewsResponse.fromJson(json);
     return newsResponse;
   }
+
+  static Future<NewsResponse> getNewsBySearch(String q)async {
+    //https://newsapi.org/v2/top-headlines?apiKey=d3e16e322c2e
+
+    var url = Uri.https(baseUrl, "/v2/everything", {
+      "apiKey": apiKey,
+      "q": q
+    });
+
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    }
+    else {
+      print(response.statusCode);
+    }
+
+    var json = jsonDecode(response.body);
+    var newsResponse = NewsResponse.fromJson(json);
+    return newsResponse;
+  }
+
+
 }

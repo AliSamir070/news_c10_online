@@ -21,22 +21,22 @@ class ArticleWidget extends StatelessWidget {
               fit: BoxFit.cover,
               height: height * 0.25,
               progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+                  const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             )),
         Text(
           news.source?.name ?? "",
-          style: TextStyle(color: Colors.grey, fontSize: 14),
+          style: const TextStyle(color: Colors.grey, fontSize: 14),
         ),
         Text(
           news.title ?? "",
-          style: TextStyle(color: Colors.black, fontSize: 20),
+          style: const TextStyle(color: Colors.black, fontSize: 20),
         ),
         Align(
           alignment: Alignment.centerRight,
           child: Text(
             news.publishedAt ?? "",
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            style: const TextStyle(color: Colors.grey, fontSize: 14),
           ),
         ),
       ],
